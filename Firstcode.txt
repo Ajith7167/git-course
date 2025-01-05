@@ -1,4 +1,0 @@
-Hello World am into CRT!!!
-take input from user
-add the values
-submit data to database
