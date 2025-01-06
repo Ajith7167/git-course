@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Navigation Bar</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+        }
+        nav a {
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        .active {
+            border-bottom: 2px solid #007BFF;
+        }
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+        }
+        #section1 { background-color: #f4f4f4; }
+        #section2 { background-color: #ddd; }
+        #section3 { background-color: #bbb; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#section1" class="nav-link">Home</a>
+        <a href="#section2" class="nav-link">About</a>
+        <a href="#section3" class="nav-link">Contact</a>
+    </nav>
+
+    <section id="section1">Home Section</section>
+    <section id="section2">About Section</section>
+    <section id="section3">Contact Section</section>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            sections.forEach((section, i) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 100 && rect.bottom >= 100) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    navLinks[i].classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
