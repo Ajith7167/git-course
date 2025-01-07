@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Bar with Steps</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ddd;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background: #007BFF;
+            width: 0%;
+            z-index: 2;
+            transform: translateY(-50%);
+            transition: width 0.4s;
+        }
+
+        .step {
+            position: relative;
+            z-index: 3;
+            background: #ddd;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        .step.active {
+            background: #007BFF;
+            color: white;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .prev {
+            background-color: #ddd;
+        }
+
+        .prev:hover:not(:disabled) {
+            background-color: #bbb;
+        }
+
+        .next {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .next:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress"></div>
+            <div class="step active">1</div>
+            <div class="step">2</div>
+            <div class="step">3</div>
+            <div class="step">4</div>
+        </div>
+        <div class="form-section active">
+            <h2>Step 1</h2>
+            <p>Content for step 1.</p>
+        </div>
+        <div class="form-section">
+            <h2>Step 2</h2>
+            <p>Content for step 2.</p>
+        </div>
+        <div class="form-section">
+            <h2>Step 3</h2>
+            <p>Content for step 3.</p>
+        </div>
+        <div class="form-section">
+            <h2>Step 4</h2>
+            <p>Content for step 4.</p>
+        </div>
+        <div class="buttons">
+            <button class="prev" id="prevBtn" disabled>Previous</button>
+            <button class="next" id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const steps = document.querySelectorAll('.step');
+        const sections = document.querySelectorAll('.form-section');
+        const progress = document.querySelector('.progress');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        let currentStep = 0;
+
+        const updateForm = () => {
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index <= currentStep);
+            });
+
+            sections.forEach((section, index) => {
+                section.classList.toggle('active', index === currentStep);
+            });
+
+            progress.style.width = ${(currentStep / (steps.length - 1)) * 100}%;
+
+            prevBtn.disabled = currentStep === 0;
+            nextBtn.textContent = currentStep === steps.length - 1 ? 'Finish' : 'Next';
+        };
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateForm();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                updateForm();
+            }
+        });
+    </script>
+</body>
+</html>
